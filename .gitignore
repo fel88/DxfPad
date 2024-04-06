@@ -1,0 +1,7 @@
+*.user
+win64/
+*.bak
+.vs/
+packages/
+bin/
+obj/
