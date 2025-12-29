@@ -16,26 +16,38 @@ namespace DxfPad
     public partial class Form1 : Form, IEditor
     {
         public Form1()
-        {            
+        {
             InitializeComponent();
             Form = this;
+
+            pg.Visible = false;
             de = new DraftEditorControl();
             de.UndosChanged += De_UndosChanged;
             de.Init(this);
             panel1.Controls.Add(de);
+            panel1.Controls.Add(pg);
 
+            pg.Width = 200;
+            pg.Height = 200;
+            pg.Top = panel1.Height - pg.Height;
+            pg.BringToFront();
+    
             Load += Form1_Load;
 
             _currentTool = new SelectionTool(this);
 
             de.Visible = true;
 
-            de.SetDraft(new Draft()); 
+            de.SetDraft(new Draft());
             de.FitAll();
 
             de.Dock = DockStyle.Fill;
 
+
+           
+
         }
+        PropertyGrid pg = new PropertyGrid();
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -54,7 +66,7 @@ namespace DxfPad
         public void RectangleStart()
         {
             SetTool(new RectDraftTool(de));
-           // uncheckedAllToolButtons();
+            // uncheckedAllToolButtons();
             //toolStripButton3.Checked = true;
         }
 
@@ -66,7 +78,7 @@ namespace DxfPad
         internal void SetStatus(string v)
         {
             //toolStripStatusLabel1.Text = v;
-            
+
         }
 
         public DraftEditorControl de;
@@ -86,12 +98,13 @@ namespace DxfPad
         {
             SetTool(new DraftEllipseTool(de));
             //uncheckedAllToolButtons();
-          //  toolStripButton4.Checked = true;
+            //  toolStripButton4.Checked = true;
         }
 
         public void ObjectSelect(object nearest)
         {
-            //throw new NotImplementedException();
+            pg.SelectedObject = nearest;
+            pg.Visible = nearest != null;
         }
 
         public void ResetTool()
@@ -174,7 +187,7 @@ namespace DxfPad
             var ed = AutoDialog.DialogHelpers.StartDialog();
             ed.AddBoolField("mm", "mm units");
             ed.ShowDialog();
-            var mmUnit = ed.GetBoolField("mm");                        
+            var mmUnit = ed.GetBoolField("mm");
 
             if (mmUnit)
             {
@@ -216,9 +229,33 @@ namespace DxfPad
         {
             exportDxf(de.Draft);
         }
-    }
-    public enum EditModeEnum
-    {
-        Part, Draft, Assembly
+
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            de.FitAll();
+        }
+        public void LineStart()
+        {
+            SetTool(new DraftLineTool(de));
+            //uncheckedAllToolButtons();
+            toolStripButton2.Checked = true;
+        }
+        private void polylineToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LineStart();
+        }
+
+        private void closeLineToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!(CurrentTool is DraftLineTool dlt) || !dlt.AddedPoints.Any())
+                return;
+
+            var f = dlt.AddedPoints.First();
+            var l = dlt.AddedPoints.Last();
+            de.Draft.Elements.Add(new DraftLine(l, f, de.Draft));
+            SetTool(new SelectionTool(this));
+
+            
+        }
     }
 }
