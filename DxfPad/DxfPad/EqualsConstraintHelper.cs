@@ -1,5 +1,7 @@
 ﻿using System.Drawing;
 using OpenTK;
+using OpenTK.Mathematics;
+using Vector2d = OpenTK.Mathematics.Vector2d;
 
 namespace DxfPad
 {

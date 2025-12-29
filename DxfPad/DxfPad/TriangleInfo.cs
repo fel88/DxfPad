@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using OpenTK;
 using System.Linq;
 using System.IO;
 using System.Xml.Linq;
+using OpenTK.Mathematics;
 
 namespace DxfPad
 {
@@ -54,7 +54,7 @@ namespace DxfPad
             for (int i = 0; i < Vertices.Length; i++)
             {
                 ret.Vertices[i] = new VertexInfo();
-                ret.Vertices[i].Position = Vector3d.Transform(Vertices[i].Position, matrix);
+                ret.Vertices[i].Position = Vector3d.TransformVector(Vertices[i].Position, matrix);
             }
 
             return ret;

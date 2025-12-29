@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using OpenTK;
 using System.Linq;
 using System.IO;
 using System.Xml.Linq;
+using OpenTK.Mathematics;
 
 namespace DxfPad
 {
@@ -27,9 +27,11 @@ namespace DxfPad
 
         ChangeCand[] GetCands()
         {
-            List<ChangeCand> ret = new List<ChangeCand>();
-            ret.Add(new ChangeCand() { Point = Line.V0, Position = new Vector2d(Line.V0.X, Line.V1.Y) });
-            ret.Add(new ChangeCand() { Point = Line.V1, Position = new Vector2d(Line.V1.X, Line.V0.Y) });
+            List<ChangeCand> ret =
+            [
+                new ChangeCand() { Point = Line.V0, Position = new Vector2d(Line.V0.X, Line.V1.Y) },
+                new ChangeCand() { Point = Line.V1, Position = new Vector2d(Line.V1.X, Line.V0.Y) },
+            ];
             return ret.Where(z => !z.Point.Frozen).ToArray();
         }
 

@@ -8,10 +8,13 @@
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="AutoDialog" Version="1.0.0.4" />
-    <PackageReference Include="IxMilia.Dxf" Version="0.8.3" />
+    <PackageReference Include="AutoDialog" Version="1.0.0.7" />
+    <PackageReference Include="IxMilia.Dxf" Version="0.8.4" />
     <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
-    <PackageReference Include="SkiaSharp.Views" Version="2.88.7" />
+    <PackageReference Include="netDxf" Version="2023.11.10" />
+    <PackageReference Include="OpenTK.Mathematics" Version="4.9.4" />
+    <PackageReference Include="SkiaSharp.Views" Version="3.119.1" />
+    <PackageReference Include="SkiaSharp.Views.WindowsForms" Version="3.119.1" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="DraftEditor.cs">
